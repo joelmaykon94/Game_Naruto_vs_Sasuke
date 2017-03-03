@@ -1,0 +1,270 @@
+use "jerimum"
+var lançar_y := jogo.altura / 2
+var lançar_x := jogo.largura / 2
+tipo Naruto
+  rasenga_campo = Imagem("fundo_naruto_rasenga.png")
+  ataque_cabeçada = Imagem.fatie("ataque1.png", 60, 100)
+  lançar_rasenga = Imagem.fatie("rasenga_lançado.png", 117, 70)
+  rasenga = Imagem.fatie("rasenga.png", 100, 100)
+  salto = Imagem.fatie("salto.png", 50, 100)
+  caminhar_tras = Imagem.fatie("naruto_andar_tras.png", 50, 100)
+  defesa = Imagem("defesa.png")
+  naruto = Imagem.fatie("naruto_parado.png", 50, 100)
+  caminhar = Imagem.fatie("naruto_andar_frente.png", 50, 100)
+  logo_naruto = Imagem.fatie("logo_naruto.png", 150, 150)
+  var naruto_x := jogo.largura / 2
+  var naruto_y := jogo.altura / 2
+  var i := 1.0
+  var j := 1.0
+  var k := 1.0
+  var z := 1.0
+  var a := 1.0
+  var logo_i := 1.0
+
+  var vida := 100
+  atualize()
+
+    logo_i := logo_i + 0.05
+    # contador do logo_naruto
+    se logo_i > 5 então
+      logo_i := 1
+    fim
+
+    a := a + 0.5
+    # contador do ataque rasenga
+    se a > 4 então
+      a := 1
+    fim
+    z := z + 0.1
+    # contador do ataque cabeçada
+    se z > 8 então
+      z := 1
+    fim
+    k := k + 0.07
+    # contador do rasenga
+    se k > 23 então
+      k := 1
+    fim
+    j := j + 0.07
+    # contador do salto
+    se j > 6 então
+      j := 1
+    fim
+
+    i := i + 0.09
+    #contador do respirando
+    se i > 6 então
+      i := 1
+    fim
+    se Teclado.TECLA_J então
+      lançar_x := lançar_x + 20
+      se lançar_x > 800 entao   #da pra ligar ao inimigo
+      lançar_x := naruto_x + 100
+      lançar_y := naruto_y fim
+
+    fim
+    se Teclado.TECLA_PARA_DIREITA então
+      naruto_x := naruto_x + 8
+      se naruto_x > jogo.largura - 15 então
+        naruto_x := jogo.largura - 15
+      fim
+    fim
+
+    se Teclado.TECLA_PARA_ESQUERDA então
+      naruto_x := naruto_x - 8
+      se naruto_x < 15 então
+        naruto_x := 15
+      fim
+    fim
+
+    se Teclado.TECLA_PARA_BAIXO então
+      naruto_y := naruto_y + 5
+      se naruto_y > jogo.altura - 100 então
+        naruto_y := jogo.altura - 100
+      fim
+    fim
+    se Teclado.TECLA_ESPAÇO então
+      naruto_x := naruto_x + 4
+      naruto_y := naruto_y - 1
+      se naruto_y > naruto_y - 205 então
+        naruto_y :=  205
+      fim
+    fim
+    se Teclado.TECLA_PARA_CIMA então
+      naruto_y := naruto_y - 5
+      se naruto_y < 205 então
+        naruto_y := 205
+      fim
+    fim
+  fim
+  desenhe()
+    logo_naruto[logo_i.inteiro].desenhe(30, 10, 3)
+
+    se Teclado.TECLA_M então
+      defesa.desenhe(naruto_x, naruto_y, 2)
+    senãose Teclado.TECLA_Z então
+      ataque_cabeçada[z.inteiro].desenhe(naruto_x, naruto_y, 2)
+    senãose Teclado.TECLA_J então
+      rasenga_campo.desenhe(0, 0, 1)
+      rasenga[k.inteiro].desenhe(naruto_x, naruto_y, 2)
+      lançar_rasenga[a.inteiro].desenhe(lançar_x, lançar_y, 2)
+    senãose Teclado.TECLA_PARA_DIREITA então
+      caminhar[i.inteiro].desenhe(naruto_x, naruto_y, 2)
+    senãose Teclado.TECLA_PARA_ESQUERDA então
+      caminhar_tras[i.inteiro].desenhe(naruto_x, naruto_y, 2)
+    senãose Teclado.TECLA_ESPAÇO então
+      salto[j.inteiro].desenhe(naruto_x, naruto_y, 2)
+    senão
+      naruto[i.inteiro].desenhe(naruto_x, naruto_y, 2)
+    fim
+  fim
+fim
+
+tipo Sasuke
+  fundo_chidore = Imagem("chidori_campo.png")
+  lançar_chidori = Imagem.fatie("katon_lançado.png", 100, 100)
+  chidori = Imagem.fatie("katon.png", 100, 100)
+  salto_sasuke = Imagem.fatie("salto_sasuke.png", 100, 100)
+  caminhar_tras_sasuke = Imagem.fatie("sasuke_correndo_tras.png", 100, 100)
+  defesa_sasuke = Imagem("defesa_sasuke.png")
+  sasuke = Imagem("sasuke.png")
+  caminhar_sasuke = Imagem.fatie("sasuke_correndo.png", 100, 100)
+  logo_sasuke = Imagem.fatie("logo_sasuke.png", 150, 150)
+  var sasuke_x := jogo.largura - 100
+  var sasuke_y := jogo.altura / 2
+  var i := 1.0
+  var j := 1.0
+  var k := 1.0
+  var logo_k := 1.0
+  var katon_i := 1.0
+  var lançar_chidori_y := jogo.altura / 2
+  var lançar_chidori_x := jogo.largura / 2
+  atualize()
+    katon_i := katon_i + 0.03
+    # contador do katon_lançado
+    se katon_i > 8 então
+      katon_i := 1
+    fim
+    logo_k := logo_k + 0.05
+    # contador do logo_sasuke
+    se logo_k > 5 então
+      logo_k := 1
+    fim
+    k := k + 0.08
+    # contador do modo katon
+    se k > 7 então
+      k := 1
+    fim
+    j := j + 0.08
+    # contador do salto
+    se j > 4 então
+      j := 1
+    fim
+    i := i + 0.2
+    # contador do salto
+    se i > 6 então
+      i := 1
+    fim
+
+    # chidore saido de sasuke
+    se Teclado.TECLA_Q então
+      lançar_chidori_x := lançar_chidori_x - 5
+      se lançar_chidori_x < 1020 então
+        #da pra ligar ao inimigo
+        lançar_chidori_x := sasuke_x - 50
+        lançar_chidori_y := sasuke_y
+      fim
+    fim
+    # anda para direita
+    se Teclado.TECLA_D então
+      sasuke_x := sasuke_x + 8
+      se sasuke_x > jogo.largura - 15 então
+        sasuke_x := jogo.largura - 15
+      fim
+    fim
+    #anda para esquerda
+    se Teclado.TECLA_A então
+      sasuke_x := sasuke_x - 8
+      se sasuke_x < 15 então
+        sasuke_x := 15
+      fim
+    fim
+    # anda para baixo
+    se Teclado.TECLA_S então
+      sasuke_y := sasuke_y + 5
+      se sasuke_y > jogo.altura - 100 então
+        sasuke_y := jogo.altura - 100
+      fim
+    fim
+    #pula para frente
+    se Teclado.TECLA_E então
+      sasuke_x := sasuke_x - 2
+    fim
+    #anda para cima
+    se Teclado.TECLA_W então
+      sasuke_y := sasuke_y - 5
+      se sasuke_y < 205 então
+        sasuke_y := 205
+      fim
+    fim
+  fim
+  desenhe()
+    logo_sasuke[logo_k.inteiro].desenhe(650, 10, 4)
+
+    se Teclado.TECLA_R então
+      defesa_sasuke.desenhe(sasuke_x, sasuke_y, 2)
+    senãose Teclado.TECLA_Q então
+      fundo_chidore.desenhe(0, 240, 1)
+      chidori[k.inteiro].desenhe(sasuke_x, sasuke_y, 2)
+      lançar_chidori[katon_i.inteiro].desenhe(lançar_chidori_x, lançar_chidori_y, 2)
+    senãose Teclado.TECLA_A então
+      caminhar_sasuke[i.inteiro].desenhe(sasuke_x, sasuke_y, 2)
+    senãose Teclado.TECLA_D então
+      caminhar_tras_sasuke[i.inteiro].desenhe(sasuke_x, sasuke_y, 2)
+    senãose Teclado.TECLA_E então
+      salto_sasuke[j.inteiro].desenhe(sasuke_x, sasuke_y, 2)
+    senão
+      sasuke.desenhe(sasuke_x, sasuke_y, 2)
+    fim
+  fim
+fim
+img = Imagem("campo1.jpg")
+damage_naruto = Imagem.fatie("damage_naruto.png", 100, 100)
+damage_sasuke = Imagem.fatie("damage_sasuke.png", 100, 100)
+jogador_new = Sasuke()
+jogador = Naruto()
+var f := 1.0
+var damage := 1.0
+atualize()
+  damage := damage + 0.2
+  se damage > 11 então
+    damage := 1
+  fim
+  f := f + 0.5
+  # contador do damage
+  se f > 4 então
+    f := 1
+  fim
+  escreva jogador.naruto_x
+  escreva jogador.naruto_y
+  jogador.atualize
+  jogador_new.atualize
+fim
+desenhe()
+
+se jogo.distancia(jogador_new.sasuke_x, jogador_new.sasuke_y, lançar_x, lançar_y) < 30   então
+    lançar_x := lançar_x + 10
+    lançar_x := jogador.naruto_x
+    lançar_y := jogador.naruto_y
+    damage_sasuke[damage.inteiro].desenhe(jogador_new.sasuke_x, jogador_new.sasuke_y, 3)
+  senao jogador_new.desenhe
+fim
+  se jogo.distancia(jogador.naruto_x, jogador.naruto_y, jogador_new.lançar_chidori_x, jogador_new.lançar_chidori_y) == 100   então
+    damage_naruto[f.inteiro].desenhe(jogador.naruto_x, jogador.naruto_y, 3)
+  senao jogador.desenhe
+fim
+
+  img.desenhe(0, 0, 0)
+fim
+
+jogo.iniciar("Naruto Battle", 850, 500, atualize, desenhe)
